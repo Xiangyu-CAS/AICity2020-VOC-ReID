@@ -1,0 +1,52 @@
+MODEL:
+  PRETRAIN_CHOICE: 'imagenet'
+  PRETRAIN_PATH: ''
+  METRIC_LOSS_TYPE: 'triplet'
+  TRIPLET_LOSS_WEIGHT: 1.0
+  IF_LABELSMOOTH: 'on'
+  NAME: 'resnet50_ibn_a'
+  POOLING_METHOD: 'GeM'
+  ID_LOSS_TYPE: 'circle'
+
+INPUT:
+  SIZE_TRAIN: [256, 256]
+  SIZE_TEST: [256, 256]
+  PROB: 0.5 # random horizontal flip
+  RE_PROB: 0.5 # random erasing
+  PADDING: 10
+
+DATASETS:
+  TRAIN: ('aicity20',)
+  TEST: ('veri',)
+
+DATALOADER:
+  SAMPLER: 'softmax_triplet'
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+
+SOLVER:
+  FP16: True
+  LR_SCHEDULER: 'cosine_step'
+  OPTIMIZER_NAME: 'Adam'
+  WARMUP_ITERS: 0
+  MAX_EPOCHS: 12
+  BASE_LR: 0.00035
+
+  BIAS_LR_FACTOR: 1
+  WEIGHT_DECAY: 0.0005
+  WEIGHT_DECAY_BIAS: 0.0005
+  IMS_PER_BATCH: 64
+  LOG_PERIOD: 100
+  EVAL_PERIOD: 2
+
+  COSINE_MARGIN: 0.35
+  COSINE_SCALE: 64
+
+TEST:
+  IMS_PER_BATCH: 128
+  WEIGHT: "path"
+  NECK_FEAT: 'after'
+  FEAT_NORM: 'yes'
+
+OUTPUT_DIR: "./output/aicity20/baseline"
+
