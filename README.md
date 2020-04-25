@@ -35,11 +35,72 @@ Please see [AICity2020.md](AICity2020.md) for details.
 
 
 ## Train
-1. Vehicle ReID
-2. Orientation ReID
-3. Camera ReID
+- **Vehicle ReID.**
+[models](https://drive.google.com/open?id=1W8nw3GEYyxZiuDSk_wdXTErHFxtfKfKI)
+```
+bash ./scripts/aicity20/train.sh
+```
+- **Orientation ReID** Train orientation ReID model
+```
+bash ./scripts/aicity20/ReOriID.sh
+```
+- **Camera ReID** Train camera ReID model
+```
+bash ./scripts/aicity20/ReCamID.sh
+```
 
 ## Test
+- generate orientation and camera similarity matrix
+```
+# ReCamID
+python tools/test.py --config_file='configs/aicity20.yml' \
+MODEL.DEVICE_ID "('1')" \
+MODEL.NAME "('resnet50_ibn_a')" \
+MODEL.MODEL_TYPE "baseline" \
+DATASETS.TRAIN "('aicity20',)" \
+DATASETS.TEST "('aicity20',)" \
+DATASETS.ROOT_DIR "('/home/zxy/data/ReID/vehicle')" \
+MODEL.PRETRAIN_CHOICE "('self')" \
+TEST.WRITE_RESULT True \
+TEST.WEIGHT "('./output/aicity20/0409-ensemble/ReCamID/best.pth')"
+
+python ./tools/aicity20/compute_distmat_from_feats.py --src_dir ./output/aicity20/0409-ensemble/ReCamID/
+
+# ReOriID
+python tools/test.py --config_file='configs/aicity20.yml' \
+MODEL.DEVICE_ID "('2')" \
+MODEL.NAME "('resnet50_ibn_a')" \
+MODEL.MODEL_TYPE "baseline" \
+DATASETS.TRAIN "('aicity20',)" \
+DATASETS.TEST "('aicity20',)" \
+DATASETS.ROOT_DIR "('/home/zxy/data/ReID/vehicle')" \
+MODEL.PRETRAIN_CHOICE "('self')" \
+TEST.WRITE_RESULT True \
+TEST.WEIGHT "('./output/aicity20/0409-ensemble/ReOriID/best.pth')"
+
+python ./tools/aicity20/compute_distmat_from_feats.py --src_dir ./output/aicity20/0409-ensemble/ReOriID/
+```
+- Vehicle ReID based on orientation and camera 
+```
+python tools/aicity20/submit.py --config_file='configs/aicity20.yml' \
+MODEL.DEVICE_ID "('1')" \
+MODEL.NAME "('resnet50_ibn_a')" \
+MODEL.MODEL_TYPE "baseline" \
+DATASETS.TRAIN "('aicity20',)" \
+DATASETS.TEST "('aicity20',)" \
+DATASETS.ROOT_DIR "('/home/zxy/data/ReID/vehicle')" \
+MODEL.PRETRAIN_CHOICE "('self')" \
+INPUT.SIZE_TRAIN '([320, 320])' \
+INPUT.SIZE_TEST '([320, 320])' \
+TEST.DO_RERANK True \
+TEST.RERANK_PARAM "([50, 15, 0.5])" \
+TEST.FLIP_TEST True \
+TEST.WRITE_RESULT True \
+TEST.USE_VOC True \
+TEST.CAM_DIST_PATH './output/aicity20/0409-ensemble/ReCamID/feat_distmat.npy' \
+TEST.ORI_DIST_PATH './output/aicity20/0409-ensemble/ReOriID/feat_distmat.npy' \
+TEST.WEIGHT "('./output/aicity20/0409-ensemble/r50-320-circle/best.pth')"
+```
 
 ## Performance
 Ablation study on AICity 2020 validation dataset
@@ -50,7 +111,7 @@ Ablation study on AICity 2020 validation dataset
 |+Arcface|26.2%|46.7%|Arcface loss|
 |+Circle|29.7%|50.8%|circle loss|
 |+Syn|39.5%|64.0%|Syn denotes Synthetic dataset VehicleX|
-|WeaklyAug|44.4%|65.3%|WeaklyAug denotes weakly supervised crop augmentation|
+|+WeaklyAug|44.4%|65.3%|WeaklyAug denotes weakly supervised crop augmentation|
 |+Orientation|47.0%|70.5%|penalized by Orientation ReID|
 |+Camera|50.8%|75.5%|penalized by Camera ReID|
 
@@ -71,7 +132,9 @@ Ablation study on AICity 2020 validation dataset
  |ResNet50_ibn_a|78.6%|95.9%|P=4,K=16,Size=[256, 256]|
  |+Orientation|79.7%|96.3%| |
  
+Failure cases that rectified by Orientation and Camera information
 
+![ ](cache/VOC-Rectified.png)
 
 ## Citation
 If you find our work helpful, please cite [it](http://arxiv.org/abs/2004.09164)
