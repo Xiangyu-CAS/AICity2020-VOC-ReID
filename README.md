@@ -1,6 +1,6 @@
 # VOC-ReID: Vehicle Re-identification based on Vehicle-Orientation-Camera
 
-This repo includes the 2st place solution for [AICity2020](https://www.aicitychallenge.org/) Challenge ReID track. 
+This repo includes the 2nd place solution for [AICity2020](https://www.aicitychallenge.org/) Challenge ReID track. 
 [Our paper](http://arxiv.org/abs/2004.09164)
 
 For commercial co-operation, please visit our website [RuiyanAI(睿沿科技)](http://www.ruiyanai.com/)
