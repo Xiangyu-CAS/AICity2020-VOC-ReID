@@ -3,7 +3,7 @@ python tools/train.py --config_file='configs/aicity20.yml' \
 MODEL.DEVICE_ID "('1')" \
 MODEL.MODEL_TYPE "baseline" \
 MODEL.NAME "('resnet50_ibn_a')" \
-MODEL.PRETRAIN_PATH "('/home/zxy/.cache/torch/checkpoints/r50_ibn_a.pth')" \
+MODEL.PRETRAIN_PATH "('/home/zxy/.cache/torch/checkpoints/resnet50_ibn_a.pth.tar')" \
 SOLVER.LR_SCHEDULER 'cosine_step' \
 DATALOADER.NUM_INSTANCE 16 \
 MODEL.ID_LOSS_TYPE 'circle' \
@@ -25,7 +25,7 @@ python tools/train.py --config_file='configs/aicity20.yml' \
 MODEL.DEVICE_ID "('1')" \
 MODEL.MODEL_TYPE "baseline" \
 MODEL.NAME "('resnet101_ibn_a')" \
-MODEL.PRETRAIN_PATH "('/home/zxy/.cache/torch/checkpoints/r101_ibn_a.pth')" \
+MODEL.PRETRAIN_PATH "('/home/zxy/.cache/torch/checkpoints/resnet101_ibn_a.pth.tar')" \
 SOLVER.LR_SCHEDULER 'cosine_step' \
 DATALOADER.NUM_INSTANCE 16 \
 MODEL.ID_LOSS_TYPE 'circle' \

@@ -20,7 +20,7 @@ and [deep-person-reid](https://github.com/KaiyangZhou/deep-person-reid)
 ## requirement
 1. pytorch>=1.2.0
 2. yacs
-3. [apex](https://github.com/NVIDIA/apex) (optional for FP16 training)
+3. [apex](https://github.com/NVIDIA/apex) (optional for FP16 training, if you don't have apex installed, please turn-off FP16 training by setting SOLVER.FP16=False)
 ````
 $ git clone https://github.com/NVIDIA/apex
 $ cd apex
@@ -35,8 +35,9 @@ Please see [AICity2020.md](AICity2020.md) for details.
 
 
 ## Train
+We use [ResNet-ibn](https://github.com/XingangPan/IBN-Net) as backbone which proves to be quite robust on Person ReID. 
+Download ImageNet pretrain model at [here](https://drive.google.com/drive/folders/1thS2B8UOSBi_cJX6zRy6YYRwz_nVFI_S) 
 - **Vehicle ReID.**
-[models](https://drive.google.com/open?id=1W8nw3GEYyxZiuDSk_wdXTErHFxtfKfKI)
 ```
 bash ./scripts/aicity20/train.sh
 ```
@@ -48,6 +49,8 @@ bash ./scripts/aicity20/ReOriID.sh
 ```
 bash ./scripts/aicity20/ReCamID.sh
 ```
+you can either download our trained [models](https://drive.google.com/open?id=1W8nw3GEYyxZiuDSk_wdXTErHFxtfKfKI)
+
 
 ## Test
 - generate orientation and camera similarity matrix

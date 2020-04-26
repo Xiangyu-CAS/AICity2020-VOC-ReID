@@ -15,7 +15,7 @@ DATASETS.ROOT_DIR "('/home/zxy/data/ReID/vehicle')" \
 MODEL.PRETRAIN_CHOICE "('self')" \
 TEST.WEIGHT "('./output/aicity20/0326-search/augmix/best.pth')"
 ````
-- after all works have be done, data folder should looks like
+- after all works have be done, data folder should look like
 ````
 -Vehicle
 --AIC20_ReID
@@ -23,10 +23,14 @@ TEST.WEIGHT "('./output/aicity20/0326-search/augmix/best.pth')"
 --AIC20_ReID_Cropped
 ````
 
+## Download pretrain model
+We use [ResNet-ibn](https://github.com/XingangPan/IBN-Net) as backbone.
+Download ImageNet pretrain model at [here](https://drive.google.com/drive/folders/1thS2B8UOSBi_cJX6zRy6YYRwz_nVFI_S) 
+
+
 
 ## Train
 - **Vehicle ReID.** Train three models respectively(resnet50, resnet101, resnext101),
-[models](https://drive.google.com/open?id=1W8nw3GEYyxZiuDSk_wdXTErHFxtfKfKI)
 ```
 bash ./scripts/aicity20/train.sh
 ```
@@ -38,6 +42,8 @@ bash ./scripts/aicity20/ReOriID.sh
 ```
 bash ./scripts/aicity20/ReCamID.sh
 ```
+you can either download our trained [models](https://drive.google.com/open?id=1W8nw3GEYyxZiuDSk_wdXTErHFxtfKfKI)
+
 
 ## Test and ensemble
 - generate orientation and camera similarity matrix
