@@ -142,7 +142,7 @@ Failure cases that rectified by Orientation and Camera information
 ## Citation
 If you find our work helpful, please cite [it](http://arxiv.org/abs/2004.09164)
 ```
-@inproceedings{he2020multi,
+@inproceedings{
  title={VOC-ReID: Vehicle Re-identification based on Vehicle-Orientation-Camera},
  author={Zhu, Xiangyu and Luo, Zhenbo and Fu, Pei and Ji, Xiang},
  booktitle={Proc. CVPR Workshops},
