@@ -150,8 +150,8 @@ class evaluator(object):
         #ori_distmat = np.load('./output/aicity20/0410-test/ReOriID/distmat.npy')
 
         # cam_distmat = np.load('./output/veri/0411-search/ReCamID/distmat.npy')
-        # ori_distmat = np.load('./output/veri/0411-search/ReOriID/distmat.npy')
-        # distmat_np = distmat_np - 0.1 * ori_distmat - 0.1 * cam_distmat
+        #ori_distmat = np.load('./output/veri/ReOriID/distmat.npy')
+        #distmat_np = distmat_np - 0.1 * ori_distmat# - 0.1 * cam_distmat
 
         indices_np = np.argsort(distmat_np, axis=1)
         if self.cfg.TEST.TRACK_RERANK and len(self.dataset.test_tracks) > 0:

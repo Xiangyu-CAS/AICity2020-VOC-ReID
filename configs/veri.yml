@@ -60,5 +60,5 @@ TEST:
   NECK_FEAT: 'after'
   FEAT_NORM: 'yes'
 
-OUTPUT_DIR: "./output/veri/baseline"
+OUTPUT_DIR: "./output/veri/test"
 
