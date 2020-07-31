@@ -17,6 +17,7 @@ and [deep-person-reid](https://github.com/KaiyangZhou/deep-person-reid)
 - [x] circle loss (borrowed from [fast-reid](https://github.com/JDAI-CV/fast-reid))
 - [x] more metric learning methods (GeM, arcface, batch_soft)
 - [x] more backbones (OSNet, ResNest, RegNet)
+- [ ] Experiments on Person-ReID
 
 ## requirement
 1. pytorch>=1.2.0
@@ -133,6 +134,7 @@ Ablation study on AICity 2020 validation dataset
  
  |method|mAP|Rank1|comment|
  |------|----|----|-----|
+ |resnet50|-|-|P=4,K=16,Size=[256, 256]|
  |ResNet50_ibn_a|81.6%|96.8%|P=4,K=16,Size=[320, 320], [log](https://drive.google.com/open?id=1MAErCPplveRmwaVnxBCvXM2wkiUSrpKd)|
  |+Orientation|82.8%|97.6%|distmat - 0.1 * ori_distmat, [log](https://drive.google.com/open?id=19gccYRO_pY6ZQMGVpEu67Y2lOk7Ufkm_)|
  |+Camera|-|-| |

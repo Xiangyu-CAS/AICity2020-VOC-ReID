@@ -30,6 +30,12 @@ def vis_actmap(model, cfg, loader, out_dir):
     img_size = cfg.INPUT.SIZE_TEST
     if not os.path.exists(out_dir):
         os.mkdir(out_dir)
+    if not os.path.exists(os.path.join(out_dir, 'image_train')):
+        os.mkdir(os.path.join(out_dir, 'image_train'))
+    if not os.path.exists(os.path.join(out_dir, 'image_query')):
+        os.mkdir(os.path.join(out_dir, 'image_query'))
+    if not os.path.exists(os.path.join(out_dir, 'image_test')):
+        os.mkdir(os.path.join(out_dir, 'image_test'))
 
     results = []
 
@@ -48,6 +54,7 @@ def vis_actmap(model, cfg, loader, out_dir):
                 # fm[0:3, 12:15] = 0
                 # fm[12:15, 0:3] = 0
                 # fm[12:15, 12:15] = 0
+
                 fm[0:4, :] = 0
                 fm[12:16, :] = 0
                 fm[:, 0:4] = 0
@@ -57,7 +64,7 @@ def vis_actmap(model, cfg, loader, out_dir):
                 fm = 255 * (fm - np.min(fm)) / (
                         np.max(fm) - np.min(fm) + 1e-12
                 )
-                bbox = localize_from_map(fm, threshold_ratio=1.5)
+                bbox = localize_from_map(fm, threshold_ratio=1.0)
                 fm = np.uint8(np.floor(fm))
                 fm = cv2.applyColorMap(fm, cv2.COLORMAP_JET)
 
@@ -68,8 +75,8 @@ def vis_actmap(model, cfg, loader, out_dir):
                 bbox[0::2] *= width / img_size[1]
                 bbox[1::2] *= height / img_size[0]
 
-                #bbox[:2] *= 0.7
-                #bbox[2:] *= 1.1
+                bbox[:2] *= 0.7
+                bbox[2:] *= 1.2
 
                 bbox = np.array(bbox, dtype=np.int)
 
@@ -129,7 +136,7 @@ def main():
     model.load_param(cfg.TEST.WEIGHT)
 
     results = []
-    out_dir = '/home/zxy/data/ReID/vehicle/AIC20_ReID_Cropped'
+    out_dir = os.path.dirname(cfg.TEST.WEIGHT)
     results += vis_actmap(model, cfg, train_loader, out_dir)
     results += vis_actmap(model, cfg, val_loader, out_dir)
 

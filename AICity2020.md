@@ -2,8 +2,33 @@
 - Download [CityFlow](https://www.aicitychallenge.org/) and [VehicleX](https://github.com/yorkeyao/VehicleX)
 , rename them to 'AIC20_ReID' and 'AIC20_ReID_Simulation' respectively.
 - Weakly Supervised crop Augmentation. Crop vehicle in image via weakly supervised method, 
-a vehicle ReID pretrain model is needed to generate attention map. 
+a vehicle ReID pretrain model is needed to generate attention map. If you dont want to train
+it yourself you can get [pretrain model](https://drive.google.com/drive/folders/1cKMcG9g4FooLMI8CLfsK-lmOzTEwijtS?usp=sharing)
+
 ````
+# first temporary comment aicity20.py line 49 # train += self._process_dir(self.train_aug_dir, self.list_train_path, self.train_label_path, relabel=False)
+# to make sure only original data is used
+# step 1: train inital model
+python tools/train.py --config_file='configs/aicity20.yml' \
+MODEL.DEVICE_ID "('2')" \
+MODEL.MODEL_TYPE "baseline" \
+MODEL.NAME "('resnet50_ibn_a')" \
+MODEL.PRETRAIN_PATH "('/home/zxy/.cache/torch/checkpoints/resnet50_ibn_a.pth.tar')" \
+SOLVER.LR_SCHEDULER 'cosine_step' \
+DATALOADER.NUM_INSTANCE 16 \
+MODEL.ID_LOSS_TYPE 'circle' \
+SOLVER.WARMUP_ITERS 0 \
+SOLVER.MAX_EPOCHS 12 \
+SOLVER.COSINE_MARGIN 0.35 \
+SOLVER.COSINE_SCALE 64 \
+SOLVER.FREEZE_BASE_EPOCHS 2 \
+MODEL.TRIPLET_LOSS_WEIGHT 1.0 \
+DATASETS.TRAIN "('aicity20',)" \
+DATASETS.TEST "('veri',)" \
+DATASETS.ROOT_DIR "('/home/zxy/data/ReID/vehicle')" \
+OUTPUT_DIR "('./output/aicity20/0326-search/augmix/')"
+
+# step2: use inital model to crop vehicles
 python tools/aicity20/weakly_supervised_crop_aug.py --config_file='configs/aicity20.yml' \
 MODEL.DEVICE_ID "('0')" \
 MODEL.NAME "('resnet50_ibn_a')" \
@@ -14,6 +39,10 @@ DATALOADER.SAMPLER 'softmax' \
 DATASETS.ROOT_DIR "('/home/zxy/data/ReID/vehicle')" \
 MODEL.PRETRAIN_CHOICE "('self')" \
 TEST.WEIGHT "('./output/aicity20/0326-search/augmix/best.pth')"
+
+# AIC20_ReID_cropped will be saved at './output/aicity20/0326-search/augmix/'
+# dont forget to uncomment aicity20.py line 49 # train += self._process_dir(self.train_aug_dir, self.list_train_path, self.train_label_path, relabel=False)
+
 ````
 - after all works have be done, data folder should look like
 ````
