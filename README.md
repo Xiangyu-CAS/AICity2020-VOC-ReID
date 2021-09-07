@@ -3,7 +3,6 @@
 This repo includes the 2nd place solution for [AICity2020](https://www.aicitychallenge.org/) Challenge ReID track. 
 [Our paper](http://arxiv.org/abs/2004.09164)
 
-For commercial co-operation, please visit our website [RuiyanAI(睿沿科技)](http://www.ruiyanai.com/)
 
 ## Update
 - In ECCV VisDA 2020 Person ReID challenge, all the top3 teams adopt camera bias post-process.
